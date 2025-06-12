@@ -1,4 +1,4 @@
-app = "minecraft-clone"
+app = "minecraft-clone-backend"
 primary_region = "dfw"
 
 [build]
@@ -16,18 +16,17 @@ primary_region = "dfw"
   processes = ["app"]
 
 [[http_service.checks]]
-  interval = "10s"
-  timeout = "2s"
-  grace_period = "5s"
+  grace_period = "10s"
+  interval = "30s"
   method = "GET"
+  timeout = "5s"
   path = "/health"
 
-[http_service.concurrency]
-  type = "connections"
-  hard_limit = 100
-  soft_limit = 80
-
-[[vm]]
+[vm]
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 512
+
+[[statics]]
+  guest_path = "/app/static"
+  url_prefix = "/static/"
