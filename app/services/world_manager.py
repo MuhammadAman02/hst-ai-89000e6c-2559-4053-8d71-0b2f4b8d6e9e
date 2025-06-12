@@ -34,7 +34,7 @@ class WorldManager:
     
     def generate_initial_terrain(self):
         """Generate initial terrain for the world"""
-        print("Generating initial terrain...")
+        print("🌍 Generating initial terrain...")
         
         # Generate a simple flat world with some hills
         for x in range(-20, 21):
@@ -60,7 +60,7 @@ class WorldManager:
         for x, z in tree_positions:
             self.generate_tree(x, z)
         
-        print(f"Generated {len(self.blocks)} initial blocks")
+        print(f"🏗️ Generated {len(self.blocks)} initial blocks")
     
     def generate_tree(self, x: int, z: int):
         """Generate a tree at the specified position"""
@@ -193,7 +193,7 @@ class WorldManager:
             try:
                 await self.save_world()
             except Exception as e:
-                print(f"Auto-save failed: {e}")
+                print(f"❌ Auto-save failed: {e}")
     
     async def save_world(self):
         """Save world state to file"""
@@ -206,18 +206,18 @@ class WorldManager:
             }
             
             os.makedirs("data", exist_ok=True)
-            with open("data/world.json", "w") as f:
+            with open("data/world.json", "w", encoding='utf-8', errors='replace') as f:
                 json.dump(world_data, f, indent=2)
             
-            print(f"World saved: {len(self.blocks)} blocks")
+            print(f"💾 World saved: {len(self.blocks)} blocks")
         except Exception as e:
-            print(f"Failed to save world: {e}")
+            print(f"❌ Failed to save world: {e}")
     
     async def load_world(self):
         """Load world state from file"""
         try:
             if os.path.exists("data/world.json"):
-                with open("data/world.json", "r") as f:
+                with open("data/world.json", "r", encoding='utf-8', errors='replace') as f:
                     world_data = json.load(f)
                 
                 # Load blocks
@@ -230,6 +230,6 @@ class WorldManager:
                 # Load stats
                 self.stats.update(world_data.get("stats", {}))
                 
-                print(f"World loaded: {len(self.blocks)} blocks")
+                print(f"📂 World loaded: {len(self.blocks)} blocks")
         except Exception as e:
-            print(f"Failed to load world: {e}")
+            print(f"❌ Failed to load world: {e}")
