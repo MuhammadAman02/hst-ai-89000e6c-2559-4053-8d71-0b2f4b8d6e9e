@@ -15,7 +15,7 @@ class ConnectionManager:
         await websocket.accept()
         self.active_connections[player_id] = websocket
         self.player_connections[player_id] = player_id
-        print(f"Player {player_id} connected. Total connections: {len(self.active_connections)}")
+        print(f"🎮 Player {player_id} connected. Total connections: {len(self.active_connections)}")
     
     def disconnect(self, player_id: str):
         """Remove a WebSocket connection"""
@@ -23,7 +23,7 @@ class ConnectionManager:
             del self.active_connections[player_id]
         if player_id in self.player_connections:
             del self.player_connections[player_id]
-        print(f"Player {player_id} disconnected. Total connections: {len(self.active_connections)}")
+        print(f"👋 Player {player_id} disconnected. Total connections: {len(self.active_connections)}")
     
     async def send_personal_message(self, message: str, player_id: str):
         """Send a message to a specific player"""
@@ -32,7 +32,7 @@ class ConnectionManager:
             try:
                 await websocket.send_text(message)
             except Exception as e:
-                print(f"Failed to send message to {player_id}: {e}")
+                print(f"❌ Failed to send message to {player_id}: {e}")
                 self.disconnect(player_id)
     
     async def broadcast(self, message: str):
@@ -46,7 +46,7 @@ class ConnectionManager:
             try:
                 await websocket.send_text(message)
             except Exception as e:
-                print(f"Failed to broadcast to {player_id}: {e}")
+                print(f"❌ Failed to broadcast to {player_id}: {e}")
                 disconnected_players.append(player_id)
         
         # Clean up disconnected players
@@ -67,18 +67,12 @@ class ConnectionManager:
             try:
                 await websocket.send_text(message)
             except Exception as e:
-                print(f"Failed to broadcast to {player_id}: {e}")
+                print(f"❌ Failed to broadcast to {player_id}: {e}")
                 disconnected_players.append(player_id)
         
         # Clean up disconnected players
         for player_id in disconnected_players:
             self.disconnect(player_id)
-    
-    async def broadcast_to_area(self, message: str, center_x: float, center_z: float, radius: float = 50.0):
-        """Broadcast a message to players within a certain area"""
-        # This would require player position tracking
-        # For now, just broadcast to all
-        await self.broadcast(message)
     
     def get_connected_players(self) -> List[str]:
         """Get list of connected player IDs"""
